@@ -24,7 +24,7 @@ HWND FindWindowByPrefix(HWND parent,wstring titlepre)
     for(HWND hwnd=FindWindowEx(parent,NULL,NULL,NULL);hwnd;hwnd=FindWindowEx(parent,hwnd,NULL,NULL))
     {
         wstring title=GetWinTitle(hwnd);
-        if(title.size()>=titlepre.size() && memcmp(title.c_str(),titlepre.c_str(),titlepre.size()*2)==0)
+        if(title.find(titlepre)!=wstring::npos)
         {
             return hwnd;
         }
