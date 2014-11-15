@@ -33,12 +33,13 @@ HWND FindWindowByPrefix(HWND parent,wstring titlepre)
     return NULL;
 }
 
+
 enum state
 {
-    waiting,
+    nohost,
     error,
-    wathcing,
-    finding
+    preparing,
+    ready
 };
 
 enum state run()
@@ -46,7 +47,7 @@ enum state run()
     HWND hwnd=FindWindowByPrefix(GetDesktopWindow(),L"Mimya-");
     if(!hwnd)
     {
-        return waiting;
+        return nohost;
     }
     HWND tiphwnd=FindWindowByPrefix(hwnd,L"房主需要在");
     if(!tiphwnd)
@@ -55,16 +56,16 @@ enum state run()
     }
 
     if(IsWindowVisible(tiphwnd))
-    {
-        return finding;
-    }
+        {
+        return ready;
+        }
 
-    return wathcing;
+    return preparing;
 }
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    enum state pre=waiting;
+    enum state pre=nohost;
     printf("尚未建主");
     while(true)
     {
@@ -73,7 +74,7 @@ int _tmain(int argc, _TCHAR* argv[])
         {
             system("cls");
             pre=now;
-            if(now==waiting)
+            if(now==nohost)
             {
                 printf("尚未建主");
             }
@@ -81,19 +82,19 @@ int _tmain(int argc, _TCHAR* argv[])
             {
                 printf("错误,找不到static窗口");
             }
-            if(now==wathcing)
+            if(now==preparing)
             {
                 printf("监控中...");
             }
-            if(now==finding)
+            if(now==ready)
             {
                 printf("人满速开!!!");
             }
         }
 
-        if(now==finding)
+        if(now==ready)
         {
-            Beep( 750, 300 );
+            Beep( 550, 300 );
             Sleep(700);
         }
         else
