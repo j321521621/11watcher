@@ -33,6 +33,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
+    ::CreateMutex(NULL,FALSE,L"[Guid(23C1895A-E971-4AF7-8F51-74E39B160DCA)]");
+    if (GetLastError() == ERROR_ALREADY_EXISTS)
+        {
+        return -1;
+        }
+
  	// TODO: Place code here.
 	MSG msg;
 	HACCEL hAccelTable;
